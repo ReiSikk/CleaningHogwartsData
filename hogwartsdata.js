@@ -1,6 +1,6 @@
 "use strict";
 
-///TODO: Ernest Macmillan nickname not showing up?
+///TODO: Ernest Macmillan middlename is empty instead of "No middle name"?
 const url = "https://petlatkea.dk/2021/hogwarts/students.json";
 
 window.addEventListener("DOMContentLoaded", start);
@@ -53,7 +53,7 @@ function prepareData(jsonData) {
     let firstname = fullname.substring(fullname.substring(0, 1), fullname.indexOf(" "));
     firstname = firstname.substring(0, 1).toUpperCase() + firstname.substring(1).toLowerCase();
     singleStudent.firstname = firstname;
-    console.log("firstname is : ", firstname);
+    /*  console.log("firstname is : ", firstname); */
 
     //MiddleName(s) variable
     let middlename = fullname.substring(fullname.indexOf(" "), fullname.lastIndexOf(" "));
@@ -76,7 +76,7 @@ function prepareData(jsonData) {
 
     // Student HOUSE variable
     house = house[0].toUpperCase() + house.substring(1).toLowerCase();
-    console.log("house is: ", house);
+    /* console.log("house is: ", house); */
     singleStudent.house = house;
 
     //gender variable
@@ -86,12 +86,20 @@ function prepareData(jsonData) {
     //NICK NAME variable
 
     if (!nickname) {
+      nickname = fullname.substring(fullname.indexOf('"') + 1, fullname.lastIndexOf('"'));
+      singleStudent.nickname = `Nickname:  ${nickname}`;
+      console.log(nickname);
+    } else {
+      singleStudent.nickname = "No nick name";
+    }
+    /* 
+    if (!nickname) {
       singleStudent.nickname = "No nick name";
     } else {
-      nickname = fullname.substring(fullname.indexOf(`"`) + 1, fullname.lastIndexOf(`"`));
-      nickname = nickname.charAt(0).toUpperCase() + nickname.substring(1);
+      nickname = fullname.substring(fullname.indexOf(`"`) + 1, fullname.lastIndexOf(`"`) - 1);
+      nickname = nickname[0].toUpperCase() + nickname.substring(1).toLowerCase();
       singleStudent.nickname = nickname;
-    }
+    } */
     //Single Student image
     ///NOTES: **2 students with the same lastname : Padma Patil and Parvati Patil
     //** all src images have last name written + _ followed by first letter of firstname*/
@@ -116,14 +124,14 @@ function prepareData(jsonData) {
         .toLowerCase()}_${singleStudent.firstname[0].toLowerCase()}.png`;
     }
     singleStudent.image = image;
-    ////push each singleStudent to filteredStudents array.
+    //push each singleStudent to filteredStudents array.
     filteredStudents.push(singleStudent);
   });
   displayStudentList();
 }
 
 function displayStudentList() {
-  console.log("Display students list called");
+  /*  console.log("Display students list called"); */
   filteredStudents.forEach(displayStudent);
 }
 function displayStudent(singleStudent) {
@@ -146,3 +154,4 @@ function displayStudent(singleStudent) {
   // append clone to list
   parent.appendChild(clone);
 }
+console.log(filteredStudents);
